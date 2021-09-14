@@ -1,0 +1,70 @@
+﻿#pragma kernel KMain
+#pragma kernel KInitialize
+
+//#pragma multi_compile _ _ALPHA
+#pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+
+//#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+//#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+
+#define A_GPU 1
+#define A_HLSL 1
+#define FSR_RCAS_F 1
+
+#include "ffx_a.hlsl"
+
+// one element:
+// [0] = const0
+// ComputeBuffer is allocated with stride sizeof(int)*4, 1 element
+RWStructuredBuffer<uint4> _RCASParameters;
+
+float _RCASScale;
+
+SamplerState samLinearClamp;
+Texture2D<AF4> InputTexture;
+RWTexture2D<AF4> OutputTexture;
+
+AF4 FsrRcasLoadF(ASU2 p) { return InputTexture.Load(int3(ASU2(p), 0)); }
+void FsrRcasInputF(inout AF1 r, inout AF1 g, inout AF1 b) {}
+
+#include "ffx_fsr1.hlsl"
+//#include "UnityCG.cginc"
+
+void Sharpen(AU2 pos) {
+    AF3 c;
+    FsrRcasF(c.r, c.g, c.b, pos, _RCASParameters[0]);
+    //OutputTexture[pos] = AF4(LinearToGammaSpace(c), 1);
+    OutputTexture[pos] = AF4(c, 1);
+}
+
+//Main
+[numthreads(64, 1, 1)]
+void KMain(uint3 LocalThreadId : SV_GroupThreadID, uint3 WorkGroupId : SV_GroupID, uint3 dispatchThreadId : SV_DispatchThreadID)
+{
+    //UNITY_XR_ASSIGN_VIEW_INDEX(dispatchThreadId.z);//we dont need this, we are only rendering to 1 screen
+
+    // Do remapping of local xy in workgroup for a more PS-like swizzle pattern.
+    AU2 gxy = ARmp8x8(LocalThreadId.x) + AU2(WorkGroupId.x << 3u, WorkGroupId.y << 3u);
+#ifdef _ALPHA
+    float alpha = InputImage.SampleLevel(s_linear_clamp_sampler, gxy.xy, 0).a;
+#else
+    float alpha = 1.0;
+#endif
+
+    Sharpen(gxy);
+    // gxy.x += 8u;
+    // Sharpen(gxy);
+    // gxy.y += 8u;
+    // Sharpen(gxy);
+    // gxy.x -= 8u;
+    // Sharpen(gxy);
+}
+
+//Init
+[numthreads(1,1,1)]
+void KInitialize()
+{
+    AU4 con;
+    FsrRcasCon(con, _RCASScale);
+    _RCASParameters[0] = con;
+}

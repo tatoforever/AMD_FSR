@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 33ec0a5095d8c65409f412914654e9b3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - computeShaderEASU: {fileID: 7200000, guid: 4b4ecaf3c46dfc545be5f6c2e858f12c, type: 3}
+  - computeShaderRCAS: {fileID: 7200000, guid: 9cbfc0f225930d149ba504b5bd5906aa, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

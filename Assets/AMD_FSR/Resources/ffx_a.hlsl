@@ -119,7 +119,7 @@
  // Same types across CPU and GPU.
  // Predicate uses 32-bit integer (C friendly bool).
  typedef uint32_t AP1;
- typedef float AF1;
+ typedef half AF1;
  typedef double AD1;
  typedef uint8_t AB1;
  typedef uint16_t AW1;
@@ -590,7 +590,7 @@
  #define AP3 bvec3
  #define AP4 bvec4
 //------------------------------------------------------------------------------------------------------------------------------
- #define AF1 float
+ #define AF1 half
  #define AF2 vec2
  #define AF3 vec3
  #define AF4 vec4
@@ -1060,7 +1060,7 @@
   #define AP3 bool3
   #define AP4 bool4
 //------------------------------------------------------------------------------------------------------------------------------
-  #define AF1 float
+  #define AF1 half
   #define AF2 float2
   #define AF3 float3
   #define AF4 float4

@@ -29,7 +29,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   computeShaderEASU: {fileID: 7200000, guid: 4b4ecaf3c46dfc545be5f6c2e858f12c, type: 3}
   computeShaderRCAS: {fileID: 7200000, guid: 9cbfc0f225930d149ba504b5bd5906aa, type: 3}
   scaleFactor:

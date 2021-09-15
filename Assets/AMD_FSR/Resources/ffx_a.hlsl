@@ -590,7 +590,7 @@
  #define AP3 bvec3
  #define AP4 bvec4
 //------------------------------------------------------------------------------------------------------------------------------
- #define AF1 half
+ #define AF1 float
  #define AF2 vec2
  #define AF3 vec3
  #define AF4 vec4
@@ -1061,9 +1061,9 @@
   #define AP4 bool4
 //------------------------------------------------------------------------------------------------------------------------------
   #define AF1 half
-  #define AF2 float2
-  #define AF3 float3
-  #define AF4 float4
+  #define AF2 half2
+  #define AF3 half3
+  #define AF4 half4
 //------------------------------------------------------------------------------------------------------------------------------
   #define AU1 uint
   #define AU2 uint2

@@ -106,16 +106,11 @@ namespace AMD_FIDELITY_FX
 
         public override void Render(PostProcessRenderContext context)
         {
-            //var sheet = context.propertySheets.Get(Shader.Find("Hidden/Custom/Grayscale"));
-            //sheet.properties.SetFloat("_Blend", settings.blend);
-            //context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
-            //context.resources.computeShaders.
-
+            context.camera.allowDynamicResolution = true;
             ScalableBufferManager.ResizeBuffers(1f / settings.scaleFactor, 1f / settings.scaleFactor); //DX12 only
-
+            
             if (outputImage == null || scaledPixelWidth != context.camera.scaledPixelWidth || scaledPixelHeight != context.camera.scaledPixelHeight || isRCASSetup == false && settings.sharpening)
             {
-                //context.camera.allowDynamicResolution = true;
                 scaledPixelWidth = context.camera.scaledPixelWidth;
                 scaledPixelHeight = context.camera.scaledPixelHeight;
                 float normalizedScale = (settings.scaleFactor - 1.3f) / (2f - 1.3f);
